@@ -7,6 +7,10 @@
           <a [routerLink]="['/login']">Have an accounr ?</a>
         </p>
         Beckend errors are here
+        <mc-backend-messages-error
+          *ngIf="validationErrors$ | async"
+          [backendErrors]="validationErrors$ | async"
+        ></mc-backend-messages-error>
         <form [formGroup]="form" (ngSubmit)="submit()">
           <fieldset class="form-group">
             <input
