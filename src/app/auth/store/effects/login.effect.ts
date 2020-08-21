@@ -11,6 +11,7 @@ import {
   loginSuccesAction,
   loginFailureAction,
 } from 'src/app/auth/store/actions/login.action';
+import { HttpErrorResponse } from '@angular/common/http';
 
 @Injectable()
 export class LoginEffect {
@@ -30,8 +31,8 @@ export class LoginEffect {
             this.persistanceService.set('accesToken', response.token);
             return loginSuccesAction({ currentUser: response });
           }),
-          catchError((e) => {
-            return of(loginFailureAction(e));
+          catchError((e: HttpErrorResponse) => {
+            return of(loginFailureAction({ errors: e.error.errors }));
           })
         );
       })
