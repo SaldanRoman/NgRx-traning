@@ -29,7 +29,7 @@ export class RegisterEffect {
       switchMap(({ request }) =>
         this.authService.register(request).pipe(
           map((currentUser: CurrentUserInterface) => {
-            this.persistanceService.set('accesToken', currentUser.token);
+            this.persistanceService.set('accessToken', currentUser.token);
             return registerSuccesAction({ currentUser });
           }),
           catchError((errorResponse: HttpErrorResponse) =>

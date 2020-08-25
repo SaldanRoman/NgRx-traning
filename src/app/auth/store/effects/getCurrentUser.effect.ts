@@ -27,10 +27,10 @@ export class GetCurrentUserEffect {
       switchMap(() => {
         const token = this.persistanceService.get('accessToken');
         if (!token) {
-          return new Observable<any>((subs) =>
-            subs.next(getCurrentUserFailureAction())
-          );
-          //   return of(getCurrentUserFailureAction());
+          return of(getCurrentUserFailureAction());
+          // return new Observable<any>((subs) =>
+          //   subs.next(getCurrentUserFailureAction())
+          // );
         }
         return this.authService.getCurrentUser().pipe(
           map((currentUser: CurrentUserInterface) => {

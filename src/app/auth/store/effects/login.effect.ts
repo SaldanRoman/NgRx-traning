@@ -28,7 +28,7 @@ export class LoginEffect {
       switchMap((ownrequest) => {
         return this.authService.login(ownrequest.request).pipe(
           map((response) => {
-            this.persistanceService.set('accesToken', response.token);
+            this.persistanceService.set('accessToken', response.token);
             return loginSuccesAction({ currentUser: response });
           }),
           catchError((e: HttpErrorResponse) => {
