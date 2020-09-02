@@ -1,0 +1,10 @@
+{
+  "/api": {
+    "target": "https://conduit.productionready.io/api/",
+    "secure": true,
+    "changeOrigin": true,
+    "pathRewrite": {
+      "^/api": ""
+    }
+  }
+}
