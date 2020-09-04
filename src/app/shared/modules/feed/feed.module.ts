@@ -7,6 +7,8 @@ import { FeedComponent } from 'src/app/shared/modules/feed/components/feed/feed.
 import { reducer } from 'src/app/shared/modules/feed/store/reducers';
 import { GetFeedEffect } from 'src/app/shared/modules/feed/store/effects/getFeed.effect';
 import { FeedService } from 'src/app/shared/modules/feed/services/feed.service';
+import { ErrorMessageModule } from 'src/app/shared/modules/errorMessage/errorMessage.module';
+import { LoadingModule } from 'src/app/shared/modules/loading/loading.module';
 
 @NgModule({
   declarations: [FeedComponent],
@@ -14,6 +16,8 @@ import { FeedService } from 'src/app/shared/modules/feed/services/feed.service';
     CommonModule,
     StoreModule.forFeature('feed', reducer),
     EffectsModule.forFeature([GetFeedEffect]),
+    ErrorMessageModule,
+    LoadingModule,
   ],
   exports: [FeedComponent],
   providers: [FeedService],
