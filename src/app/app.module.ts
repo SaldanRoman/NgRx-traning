@@ -5,6 +5,7 @@ import { RouterModule } from '@angular/router';
 import { StoreModule } from '@ngrx/store';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { EffectsModule } from '@ngrx/effects';
+import { StoreRouterConnectingModule, routerReducer } from '@ngrx/router-store';
 
 import { environment } from 'src/environments/environment';
 import { AppComponent } from './app.component';
@@ -21,12 +22,13 @@ import { GlobalFeedModule } from 'src/app/globalFeed/globalFeed.module';
     RouterModule.forRoot([]),
     HttpClientModule,
     AuthModule,
-    StoreModule.forRoot({}),
+    StoreModule.forRoot({ router: routerReducer }),
     EffectsModule.forRoot([]),
     StoreDevtoolsModule.instrument({
       maxAge: 25,
       logOnly: environment.production,
     }),
+    StoreRouterConnectingModule.forRoot(),
     TopBarModule,
     GlobalFeedModule,
   ],

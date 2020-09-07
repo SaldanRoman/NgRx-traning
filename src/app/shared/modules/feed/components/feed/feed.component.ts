@@ -1,6 +1,8 @@
 import { Component, Input, OnInit, OnDestroy } from '@angular/core';
 import { Store, select } from '@ngrx/store';
 import { Observable, Subscription } from 'rxjs';
+import { ActivatedRoute, Router, Params } from '@angular/router';
+import { stringify, parseUrl } from 'query-string';
 
 import { FeedService } from 'src/app/shared/modules/feed/services/feed.service';
 import { GetFeedResponseInterface } from 'src/app/shared/modules/feed/types/getFeedResponse.interface';
@@ -9,9 +11,8 @@ import {
   errorSelector,
   isLoadingSelector,
 } from 'src/app/shared/modules/feed/store/selectors';
-import { getFeedAction } from '../../store/actions/getFeed.action';
+import { getFeedAction } from 'src/app/shared/modules/feed/store/actions/getFeed.action';
 import { environment } from 'src/environments/environment';
-import { ActivatedRoute, Router, Params } from '@angular/router';
 
 @Component({
   selector: 'mc-feed',
@@ -47,17 +48,26 @@ export class FeedComponent implements OnInit, OnDestroy {
     this.queryPatamsSubscription = this.route.queryParams.subscribe(
       (params: Params) => {
         this.currentPage = +(params.page || '1');
+        this.fetchFeed();
       }
     );
   }
 
-  fetchData(): void {
-    this.store.dispatch(getFeedAction({ url: this.apiUrlProps }));
+  fetchFeed(): void {
+    const offset = this.currentPage * this.limit - this.limit;
+    const parsedUrl = parseUrl(this.apiUrlProps);
+    const stringifyedParams = stringify({
+      ...parsedUrl.query,
+      limit: this.limit,
+      offset,
+    });
+
+    const apiUrlWithParams = `${this.apiUrlProps}?${stringifyedParams}`;
+    this.store.dispatch(getFeedAction({ url: apiUrlWithParams }));
   }
 
   ngOnInit(): void {
     this.initValues();
-    this.fetchData();
     this.initListeners();
   }
 
